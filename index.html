@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AfroBeautyShop — Cosmétiques Naturels Africains</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --gold:#B8924A;--gold-l:#D4AA6A;--gold-pale:#F7F0E6;
+  --dark:#0F0A04;--dark2:#1C1408;--brown:#4A2C0A;
+  --cream:#FAF6EE;--cream2:#F0E8D8;
+  --text:#1C1408;--muted:#7A6248;--white:#FFFFFF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;}
+
+/* GRAIN */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.4;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:18px 64px;background:rgba(250,246,238,0.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(184,146,74,.15);transition:box-shadow .3s;}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--dark);}
+.nav-logo span{color:var(--gold);}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{font-size:.75rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .25s;}
+.nav-links a:hover{color:var(--gold);}
+.lang-wrap{display:flex;gap:6px;}
+.lang-btn{font-size:.7rem;font-weight:600;letter-spacing:.1em;padding:5px 12px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.lang-btn.active,.lang-btn:hover{background:var(--gold);color:#fff;}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:55% 45%;padding-top:76px;}
+.hero-l{display:flex;flex-direction:column;justify-content:center;padding:80px 56px 80px 72px;position:relative;}
+.hero-l::after{content:'';position:absolute;right:0;top:15%;height:55%;width:1px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);}
+.hero-tag{font-size:.68rem;font-weight:500;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;opacity:0;animation:up .7s .1s forwards;}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,4.5vw,4.2rem);font-weight:700;line-height:1.08;color:var(--dark);margin-bottom:24px;opacity:0;animation:up .7s .25s forwards;}
+.hero-h1 em{font-style:italic;color:var(--gold);}
+.hero-p{font-size:.92rem;font-weight:300;line-height:1.85;color:var(--muted);max-width:400px;margin-bottom:36px;opacity:0;animation:up .7s .4s forwards;}
+.hero-btns{display:flex;gap:14px;opacity:0;animation:up .7s .55s forwards;}
+.btn-g{display:inline-block;padding:13px 34px;background:var(--gold);color:#fff;font-size:.73rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:all .3s;position:relative;overflow:hidden;}
+.btn-g::before{content:'';position:absolute;inset:0;background:var(--dark);transform:translateX(-101%);transition:transform .3s;}
+.btn-g:hover::before{transform:translateX(0);}
+.btn-g span{position:relative;z-index:1;}
+.btn-o{display:inline-block;padding:13px 34px;border:1px solid var(--brown);color:var(--brown);font-size:.73rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:all .3s;}
+.btn-o:hover{background:var(--brown);color:#fff;}
+.hero-nums{display:flex;gap:44px;margin-top:56px;padding-top:36px;border-top:1px solid var(--cream2);opacity:0;animation:up .7s .7s forwards;}
+.num-n{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:700;color:var(--gold);display:block;}
+.num-l{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+
+/* HERO RIGHT — mosaïque CSS */
+.hero-r{background:var(--dark2);display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;overflow:hidden;}
+.htile{position:relative;overflow:hidden;cursor:default;}
+.htile-inner{width:100%;height:100%;transition:transform .6s ease;}
+.htile:hover .htile-inner{transform:scale(1.04);}
+.htile-lbl{position:absolute;bottom:12px;left:14px;font-size:.6rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.9);background:rgba(0,0,0,.38);padding:4px 10px;backdrop-filter:blur(4px);}
+.htile-1{grid-column:1;grid-row:1/3;}
+
+/* Visuels produits CSS */
+.vis-karite{background:radial-gradient(circle at 35% 40%, #D4A853 0%, #8B5E2A 40%, #3D2008 100%);display:flex;align-items:center;justify-content:center;}
+.vis-baobab{background:radial-gradient(circle at 60% 35%, #4A7C59 0%, #1C4A30 50%, #0A2010 100%);display:flex;align-items:center;justify-content:center;}
+.vis-savon{background:radial-gradient(circle at 50% 50%, #3A2010 0%, #1A0C04 60%, #0A0402 100%);display:flex;align-items:center;justify-content:center;}
+.vis-ricin{background:radial-gradient(circle at 40% 30%, #5C3A1C 0%, #2A1508 55%, #0E0602 100%);display:flex;align-items:center;justify-content:center;}
+.vis-argile{background:radial-gradient(circle at 55% 45%, #E8D5B0 0%, #C4A46A 40%, #7A5C2A 100%);display:flex;align-items:center;justify-content:center;}
+.vis-coffret{background:linear-gradient(135deg, #1A0E04 0%, #3A2010 40%, #5C3A1C 70%, #B8924A 100%);display:flex;align-items:center;justify-content:center;}
+.vis-blog1{background:linear-gradient(160deg, #2C1F0E 0%, #5C3D1E 50%, #8B6030 100%);display:flex;align-items:center;justify-content:center;}
+.vis-blog2{background:linear-gradient(160deg, #1A3C2E 0%, #2C5C3E 60%, #4A7C5A 100%);display:flex;align-items:center;justify-content:center;}
+.vis-blog3{background:linear-gradient(160deg, #1A0A04 0%, #3A1810 50%, #5C2C1C 100%);display:flex;align-items:center;justify-content:center;}
+
+/* Pot CSS générique */
+.pot{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.pot-jar{position:relative;}
+.pot-lid{border-radius:50% 50% 0 0;background:linear-gradient(to bottom, rgba(255,255,255,.25), rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.2);}
+.pot-body{border-radius:6px;background:linear-gradient(to bottom, rgba(255,255,255,.15), rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;}
+.pot-label-text{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);font-family:'DM Sans',sans-serif;}
+.pot-emoji{font-size:2.2rem;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));}
+.pot-name{font-family:'Playfair Display',serif;font-size:.7rem;font-style:italic;color:rgba(255,255,255,.7);text-align:center;}
+
+/* Bouteille CSS */
+.bottle{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.bottle-neck{width:18px;height:28px;border-radius:4px 4px 0 0;background:linear-gradient(to right, rgba(255,255,255,.3), rgba(255,255,255,.1), rgba(255,255,255,.3));border:1px solid rgba(255,255,255,.2);}
+.bottle-cap{width:22px;height:10px;border-radius:3px;background:rgba(184,146,74,.8);margin-bottom:2px;}
+.bottle-body{width:52px;height:80px;border-radius:6px;background:linear-gradient(to right, rgba(255,255,255,.25), rgba(255,255,255,.08), rgba(255,255,255,.25));border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;}
+.bottle-emoji{font-size:1.6rem;}
+
+/* TICKER */
+.ticker{background:var(--gold);padding:12px 0;overflow:hidden;}
+.ticker-inner{display:flex;animation:tick 22s linear infinite;width:max-content;}
+.ticker-item{font-size:.68rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:#fff;padding:0 36px;white-space:nowrap;}
+.tdot{color:rgba(255,255,255,.45);}
+
+/* LABELS */
+.s-label{font-size:.68rem;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block;}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:700;line-height:1.18;color:var(--dark);}
+.s-title em{font-style:italic;color:var(--gold);}
+.s-title-l{color:var(--cream);}
+
+/* ABOUT */
+.about{padding:110px 72px;display:grid;grid-template-columns:1fr 1.1fr;gap:90px;align-items:center;}
+.about-txt{font-size:.9rem;font-weight:300;line-height:1.92;color:var(--muted);margin-bottom:18px;}
+.pledge{background:var(--dark);padding:44px 38px;border-left:3px solid var(--gold);}
+.pledge-t{font-family:'Playfair Display',serif;font-size:1.2rem;font-style:italic;color:var(--gold-l);margin-bottom:24px;}
+.pledge-list{list-style:none;display:flex;flex-direction:column;gap:14px;}
+.pledge-list li{display:flex;gap:12px;font-size:.84rem;color:rgba(240,232,213,.75);font-weight:300;line-height:1.6;}
+.pledge-list li::before{content:'◆';color:var(--gold);font-size:.45rem;margin-top:7px;flex-shrink:0;}
+
+/* PRODUCTS */
+.products{background:var(--dark);padding:110px 72px;}
+.products-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+
+.pcard{background:#1A1206;border:1px solid rgba(184,146,74,.08);overflow:hidden;transition:all .4s;position:relative;}
+.pcard:hover{border-color:rgba(184,146,74,.35);transform:translateY(-5px);}
+.pcard-vis{width:100%;height:220px;position:relative;overflow:hidden;}
+.pcard-vis-inner{width:100%;height:100%;transition:transform .5s;}
+.pcard:hover .pcard-vis-inner{transform:scale(1.04);}
+.pcard-badge{position:absolute;top:14px;right:14px;font-size:.6rem;font-weight:700;letter-spacing:.1em;padding:5px 10px;background:rgba(184,146,74,.92);color:#fff;z-index:2;}
+.pcard-body{padding:26px 24px;}
+.pcard-cat{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:7px;font-weight:500;}
+.pcard-name{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--cream);margin-bottom:10px;line-height:1.3;}
+.pcard-desc{font-size:.8rem;color:rgba(240,232,213,.5);line-height:1.7;font-weight:300;margin-bottom:18px;}
+.pcard-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:18px;}
+.ptag{font-size:.6rem;padding:3px 9px;border:1px solid rgba(184,146,74,.25);color:rgba(184,146,74,.7);}
+.pcard-lnk{font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:gap .3s;}
+.pcard-lnk:hover{gap:13px;}
+
+/* BLOG */
+.blog{padding:110px 72px;background:var(--cream);}
+.bgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:3px;margin-top:56px;}
+.bcard{background:var(--white);border:1px solid var(--cream2);overflow:hidden;transition:all .3s;}
+.bcard:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 18px 40px rgba(15,10,4,.07);}
+.bcard-vis{height:200px;position:relative;overflow:hidden;}
+.bcard:first-child .bcard-vis{height:250px;}
+.bcard-vis-inner{width:100%;height:100%;}
+.bcard-body{padding:26px;}
+.bcard-tag{font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;display:block;}
+.bcard-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--dark);margin-bottom:10px;line-height:1.35;}
+.bcard-exc{font-size:.8rem;color:var(--muted);line-height:1.75;font-weight:300;margin-bottom:18px;}
+.bcard-foot{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--cream2);}
+.bcard-date{font-size:.68rem;color:var(--muted);}
+.bcard-read{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:gap .3s;}
+.bcard-read:hover{gap:10px;}
+
+/* Blog decorative SVG icons */
+.blog-deco{width:80px;height:80px;opacity:.35;}
+
+/* WHY */
+.why{background:var(--cream2);padding:90px 72px;}
+.wgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:56px;}
+.wcard{background:var(--cream);padding:36px 24px;text-align:center;border:1px solid rgba(184,146,74,.08);transition:all .3s;position:relative;overflow:hidden;}
+.wcard::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--gold);transform:scaleX(0);transition:transform .35s;}
+.wcard:hover::after{transform:scaleX(1);}
+.wcard:hover{transform:translateY(-4px);}
+.w-icon{font-size:2rem;margin-bottom:14px;display:block;}
+.w-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--dark);margin-bottom:9px;}
+.w-text{font-size:.8rem;color:var(--muted);line-height:1.72;font-weight:300;}
+
+/* NEWSLETTER */
+.nl{background:var(--dark);padding:90px 72px;text-align:center;position:relative;overflow:hidden;}
+.nl::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;border:1px solid rgba(184,146,74,.07);}
+.nl-inner{position:relative;z-index:2;}
+.nl-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);color:var(--cream);font-weight:700;margin-bottom:12px;}
+.nl-title em{font-style:italic;color:var(--gold);}
+.nl-sub{font-size:.87rem;color:rgba(240,232,213,.5);font-weight:300;margin-bottom:36px;}
+.nl-form{display:flex;max-width:460px;margin:0 auto;}
+.nl-input{flex:1;padding:15px 22px;background:rgba(255,255,255,.05);border:1px solid rgba(184,146,74,.28);border-right:none;color:var(--cream);font-size:.85rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .3s;}
+.nl-input::placeholder{color:rgba(240,232,213,.3);}
+.nl-input:focus{border-color:var(--gold);}
+.nl-btn{padding:15px 28px;background:var(--gold);border:1px solid var(--gold);color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .3s;}
+.nl-btn:hover{background:var(--gold-l);}
+
+/* AFF BAR */
+.aff-bar{background:var(--gold-pale);border-top:2px solid var(--gold);padding:14px 72px;display:flex;gap:14px;align-items:flex-start;}
+.aff-bar p{font-size:.78rem;color:var(--muted);font-weight:300;line-height:1.6;}
+.aff-bar strong{color:var(--brown);font-weight:600;}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid rgba(184,146,74,.12);padding:60px 72px 28px;}
+.ft-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:56px;margin-bottom:46px;}
+.ft-logo{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--cream);display:block;margin-bottom:12px;}
+.ft-logo span{color:var(--gold);}
+.ft-desc{font-size:.8rem;color:rgba(240,232,213,.45);line-height:1.82;font-weight:300;margin-bottom:18px;}
+.ft-socials{display:flex;gap:10px;}
+.ft-soc{width:34px;height:34px;border:1px solid rgba(184,146,74,.25);display:flex;align-items:center;justify-content:center;color:rgba(184,146,74,.6);text-decoration:none;font-size:.8rem;transition:all .3s;}
+.ft-soc:hover{border-color:var(--gold);color:var(--gold);}
+.ft-col-t{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;}
+.ft-links{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.ft-links a{font-size:.8rem;color:rgba(240,232,213,.45);text-decoration:none;font-weight:300;transition:color .2s;}
+.ft-links a:hover{color:var(--gold);}
+.ft-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:22px;border-top:1px solid rgba(184,146,74,.08);}
+.ft-copy{font-size:.72rem;color:rgba(240,232,213,.25);font-weight:300;}
+.ft-aff-n{font-size:.68rem;color:rgba(240,232,213,.2);font-style:italic;max-width:420px;text-align:right;line-height:1.55;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:all .75s cubic-bezier(.16,1,.3,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@keyframes up{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+@media(max-width:1024px){
+  nav{padding:16px 28px;}
+  .hero{grid-template-columns:1fr;}
+  .hero-l{padding:60px 28px;}
+  .hero-r{height:320px;}
+  .about,.products,.blog,.why,.nl{padding:80px 28px;}
+  .about{grid-template-columns:1fr;}
+  .pgrid{grid-template-columns:1fr 1fr;}
+  .bgrid{grid-template-columns:1fr;}
+  .wgrid{grid-template-columns:1fr 1fr;}
+  footer{padding:56px 28px 24px;}
+  .ft-grid{grid-template-columns:1fr 1fr;gap:36px;}
+  .aff-bar{padding:14px 28px;}
+}
+@media(max-width:600px){
+  .pgrid,.wgrid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">Afro<span>Beauty</span>Shop</div>
+  <ul class="nav-links">
+    <li><a href="#about" data-fr="À Propos" data-en="About">À Propos</a></li>
+    <li><a href="#products" data-fr="Produits" data-en="Products">Produits</a></li>
+    <li><a href="#blog" data-fr="Blog" data-en="Blog">Blog</a></li>
+    <li><a href="#contact" data-fr="Contact" data-en="Contact">Contact</a></li>
+  </ul>
+  <div class="lang-wrap">
+    <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-l">
+    <p class="hero-tag" data-fr="Beauté Naturelle Africaine · Est. 2026" data-en="African Natural Beauty · Est. 2026">Beauté Naturelle Africaine · Est. 2026</p>
+    <h1 class="hero-h1"><span data-fr="L'Afrique à l'origine<br/>de votre <em>beauté</em>" data-en="Africa at the origin<br/>of your <em>beauty</em>">L'Afrique à l'origine<br/>de votre <em>beauté</em></span></h1>
+    <p class="hero-p" data-fr="Karité, baobab, savon noir — des trésors naturels africains sélectionnés avec soin pour sublimer chaque peau et chevelure, de l'Afrique de l'Ouest à la diaspora mondiale." data-en="Shea, baobab, black soap — African natural treasures carefully selected to enhance every skin and hair, from West Africa to the global diaspora.">Karité, baobab, savon noir — des trésors naturels africains sélectionnés avec soin pour sublimer chaque peau et chevelure, de l'Afrique de l'Ouest à la diaspora mondiale.</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-g"><span data-fr="Voir les produits" data-en="View products">Voir les produits</span></a>
+      <a href="#about" class="btn-o" data-fr="Notre histoire" data-en="Our story">Notre histoire</a>
+    </div>
+    <div class="hero-nums">
+      <div><span class="num-n">50+</span><span class="num-l" data-fr="Produits sélectionnés" data-en="Curated products">Produits sélectionnés</span></div>
+      <div><span class="num-n">2</span><span class="num-l" data-fr="Marchés couverts" data-en="Markets covered">Marchés couverts</span></div>
+      <div><span class="num-n">100%</span><span class="num-l" data-fr="Naturel africain" data-en="African natural">Naturel africain</span></div>
+    </div>
+  </div>
+
+  <!-- HERO MOSAÏQUE — visuels CSS garantis -->
+  <div class="hero-r">
+    <!-- Grande tuile gauche : Karité -->
+    <div class="htile htile-1">
+      <div class="htile-inner vis-karite" style="width:100%;height:100%;">
+        <div class="pot" style="width:100%;height:100%;padding:20px;">
+          <div class="pot-jar">
+            <div class="pot-lid" style="width:90px;height:20px;margin:0 auto;"></div>
+            <div class="pot-body" style="width:90px;height:70px;"><span class="pot-label-text">KARITÉ</span></div>
+          </div>
+          <span class="pot-emoji">🌿</span>
+          <span class="pot-name" data-fr="Beurre de Karité" data-en="Shea Butter">Beurre de Karité</span>
+        </div>
+      </div>
+      <span class="htile-lbl" data-fr="Beurre de Karité · BF" data-en="Shea Butter · BF">Beurre de Karité · BF</span>
+    </div>
+    <!-- Tuile haut droite : Baobab -->
+    <div class="htile">
+      <div class="htile-inner vis-baobab" style="width:100%;height:100%;">
+        <div class="bottle" style="padding:20px;">
+          <div class="bottle-cap"></div>
+          <div class="bottle-neck"></div>
+          <div class="bottle-body"><span class="bottle-emoji">🌺</span></div>
+        </div>
+      </div>
+      <span class="htile-lbl" data-fr="Huile de Baobab" data-en="Baobab Oil">Huile de Baobab</span>
+    </div>
+    <!-- Tuile bas droite : Savon noir -->
+    <div class="htile">
+      <div class="htile-inner vis-savon" style="width:100%;height:100%;">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;padding:16px;">
+          <!-- Savon bar CSS -->
+          <div style="width:80px;height:50px;background:linear-gradient(135deg,#2A1A0A,#0A0402);border-radius:8px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:1.6rem;">🖤</span>
+          </div>
+          <span style="font-family:'Playfair Display',serif;font-size:.7rem;font-style:italic;color:rgba(255,255,255,.65);text-align:center;" data-fr="Savon Noir" data-en="Black Soap">Savon Noir</span>
+        </div>
+      </div>
+      <span class="htile-lbl" data-fr="Savon Noir Africain" data-en="African Black Soap">Savon Noir Africain</span>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item" data-fr="Beurre de Karité" data-en="Shea Butter">Beurre de Karité</span><span class="ticker-item tdot">◆</span>
+    <span class="ticker-item" data-fr="Huile de Baobab" data-en="Baobab Oil">Huile de Baobab</span><span class="ticker-item tdot">◆</span>
+    <span class="ticker-item" data-fr="Savon Noir Africain" data-en="African Black Soap">Savon Noir Africain</span><span class="ticker-item tdot">◆</span>
+    <span class="ticker-item" data-fr="Huile de Ricin" data-en="Castor Oil">Huile de Ricin</span><span class="ticker-item tdot">◆</span>
+    <span class="ticker-item" data-fr="Argile Blanche" data-en="White Clay">Argile Blanche</span><span class="ticker-item tdot">◆</span>
+    <span class="ticker-item" data-fr="Henné Naturel" data-en="Natural Henna">Henné Naturel</span><span class="ticker-item tdot">◆</span>
+    <span class="ticker-item" data-fr="Beurre de Karité" data-en="Shea Butter">Beurre de Karité</span><span class="ticker-item tdot">◆</span>
+    <span class="ticker-item" data-fr="Huile de Baobab" data-en="Baobab Oil">Huile de Baobab</span><span class="ticker-item tdot">◆</span>
+    <span class="ticker-item" data-fr="Savon Noir Africain" data-en="African Black Soap">Savon Noir Africain</span><span class="ticker-item tdot">◆</span>
+    <span class="ticker-item" data-fr="Huile de Ricin" data-en="Castor Oil">Huile de Ricin</span><span class="ticker-item tdot">◆</span>
+    <span class="ticker-item" data-fr="Argile Blanche" data-en="White Clay">Argile Blanche</span><span class="ticker-item tdot">◆</span>
+    <span class="ticker-item" data-fr="Henné Naturel" data-en="Natural Henna">Henné Naturel</span><span class="ticker-item tdot">◆</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="reveal">
+    <span class="s-label" data-fr="Notre Histoire" data-en="Our Story">Notre Histoire</span>
+    <h2 class="s-title" style="margin-bottom:24px;"><span data-fr="Un pont entre l'Afrique<br/>et <em>sa diaspora</em>" data-en="A bridge between Africa<br/>and <em>its diaspora</em>">Un pont entre l'Afrique<br/>et <em>sa diaspora</em></span></h2>
+    <p class="about-txt" data-fr="AfroBeautyShop est né à Bobo-Dioulasso, au cœur du Burkina Faso, avec une conviction simple : les richesses naturelles de l'Afrique méritent d'être connues et célébrées dans le monde entier." data-en="AfroBeautyShop was born in Bobo-Dioulasso, in the heart of Burkina Faso, with a simple belief: Africa's natural riches deserve to be known and celebrated worldwide.">AfroBeautyShop est né à Bobo-Dioulasso, au cœur du Burkina Faso, avec une conviction simple : les richesses naturelles de l'Afrique méritent d'être connues et célébrées dans le monde entier.</p>
+    <p class="about-txt" data-fr="Nous guidons les femmes africaines et la diaspora — à Abidjan, Paris, Bruxelles ou Montréal — vers les meilleurs cosmétiques naturels, sélectionnés avec rigueur et recommandés avec intégrité." data-en="We guide African women and the diaspora — in Abidjan, Paris, Brussels or Montreal — toward the best natural cosmetics, rigorously selected and recommended with integrity.">Nous guidons les femmes africaines et la diaspora — à Abidjan, Paris, Bruxelles ou Montréal — vers les meilleurs cosmétiques naturels, sélectionnés avec rigueur et recommandés avec intégrité.</p>
+  </div>
+  <div class="reveal">
+    <div class="pledge">
+      <p class="pledge-t" data-fr="Nos engagements envers vous" data-en="Our commitments to you">Nos engagements envers vous</p>
+      <ul class="pledge-list">
+        <li><span data-fr="Sélection rigoureuse de produits 100% naturels d'origine africaine" data-en="Rigorous selection of 100% natural products of African origin">Sélection rigoureuse de produits 100% naturels d'origine africaine</span></li>
+        <li><span data-fr="Recommandations honnêtes basées sur la recherche et les avis clients" data-en="Honest recommendations based on research and customer reviews">Recommandations honnêtes basées sur la recherche et les avis clients</span></li>
+        <li><span data-fr="Contenu bilingue FR/EN pour toute la diaspora africaine mondiale" data-en="Bilingual FR/EN content for the entire global African diaspora">Contenu bilingue FR/EN pour toute la diaspora africaine mondiale</span></li>
+        <li><span data-fr="Liens affiliés vérifiés — marchands sélectionnés pour leur fiabilité" data-en="Verified affiliate links — merchants selected for their reliability">Liens affiliés vérifiés — marchands sélectionnés pour leur fiabilité</span></li>
+        <li><span data-fr="Guides adaptés aux budgets africains et à la diaspora en Europe" data-en="Guides adapted to African budgets and the European diaspora">Guides adaptés aux budgets africains et à la diaspora en Europe</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="products-hd reveal">
+    <div>
+      <span class="s-label" data-fr="Sélection du Moment" data-en="Featured Selection">Sélection du Moment</span>
+      <h2 class="s-title s-title-l"><span data-fr="Les <em>meilleurs produits</em><br/>recommandés" data-en="The <em>best products</em><br/>recommended">Les <em>meilleurs produits</em><br/>recommandés</span></h2>
+    </div>
+    <a href="#" class="btn-o" style="color:rgba(240,232,213,.6);border-color:rgba(240,232,213,.2);align-self:flex-end;" data-fr="Tout voir →" data-en="View all →">Tout voir →</a>
+  </div>
+  <div class="pgrid">
+
+    <!-- P1 Karité -->
+    <div class="pcard reveal">
+      <div class="pcard-vis vis-karite">
+        <div class="pcard-vis-inner" style="display:flex;align-items:center;justify-content:center;height:100%;">
+          <div class="pot">
+            <div class="pot-jar">
+              <div class="pot-lid" style="width:100px;height:22px;margin:0 auto;"></div>
+              <div class="pot-body" style="width:100px;height:78px;"><span class="pot-label-text">PURE SHEA</span></div>
+            </div>
+            <span class="pot-emoji" style="font-size:2.6rem;">🌿</span>
+          </div>
+        </div>
+      </div>
+      <div class="pcard-badge" data-fr="Jusqu'à 8%" data-en="Up to 8%">Jusqu'à 8%</div>
+      <div class="pcard-body">
+        <span class="pcard-cat" data-fr="Soin Visage & Corps" data-en="Face & Body Care">Soin Visage & Corps</span>
+        <h3 class="pcard-name" data-fr="Beurre de Karité Pur" data-en="Pure Shea Butter">Beurre de Karité Pur</h3>
+        <p class="pcard-desc" data-fr="Le trésor du Burkina Faso. Hydratation intense et protection naturelle pour peaux noires et métissées." data-en="Burkina Faso's treasure. Intense hydration and natural protection for dark and mixed skin.">Le trésor du Burkina Faso. Hydratation intense et protection naturelle pour peaux noires et métissées.</p>
+        <div class="pcard-tags"><span class="ptag" data-fr="Anti-âge" data-en="Anti-aging">Anti-âge</span><span class="ptag" data-fr="Cicatrisant" data-en="Healing">Cicatrisant</span><span class="ptag" data-fr="100% Naturel" data-en="100% Natural">100% Naturel</span></div>
+        <a href="#" class="pcard-lnk"><span data-fr="Voir la sélection" data-en="View selection">Voir la sélection</span> →</a>
+      </div>
+    </div>
+
+    <!-- P2 Baobab -->
+    <div class="pcard reveal">
+      <div class="pcard-vis vis-baobab">
+        <div class="pcard-vis-inner" style="display:flex;align-items:center;justify-content:center;height:100%;">
+          <div class="bottle">
+            <div class="bottle-cap"></div>
+            <div class="bottle-neck"></div>
+            <div class="bottle-body" style="width:60px;height:90px;"><span style="font-size:2rem;">🌺</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="pcard-badge" data-fr="Jusqu'à 10%" data-en="Up to 10%">Jusqu'à 10%</div>
+      <div class="pcard-body">
+        <span class="pcard-cat" data-fr="Soin Cheveux" data-en="Hair Care">Soin Cheveux</span>
+        <h3 class="pcard-name" data-fr="Huile de Baobab" data-en="Baobab Oil">Huile de Baobab</h3>
+        <p class="pcard-desc" data-fr="L'or liquide africain pour cheveux crépus, bouclés et frisés. Pousse, brillance et force garanties." data-en="African liquid gold for coily, curly and wavy hair. Guaranteed growth, shine and strength.">L'or liquide africain pour cheveux crépus, bouclés et frisés. Pousse, brillance et force garanties.</p>
+        <div class="pcard-tags"><span class="ptag" data-fr="Repousse" data-en="Regrowth">Repousse</span><span class="ptag" data-fr="Brillance" data-en="Shine">Brillance</span><span class="ptag" data-fr="Nourrissant" data-en="Nourishing">Nourrissant</span></div>
+        <a href="#" class="pcard-lnk"><span data-fr="Voir la sélection" data-en="View selection">Voir la sélection</span> →</a>
+      </div>
+    </div>
+
+    <!-- P3 Savon noir -->
+    <div class="pcard reveal">
+      <div class="pcard-vis vis-savon">
+        <div class="pcard-vis-inner" style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:12px;">
+          <div style="width:110px;height:68px;background:linear-gradient(135deg,#3A2010,#0A0402);border-radius:10px;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:2.4rem;">🖤</span>
+          </div>
+          <span style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);font-family:'DM Sans',sans-serif;" data-fr="SAVON NOIR AFRICAIN" data-en="AFRICAN BLACK SOAP">SAVON NOIR AFRICAIN</span>
+        </div>
+      </div>
+      <div class="pcard-badge" data-fr="Jusqu'à 7%" data-en="Up to 7%">Jusqu'à 7%</div>
+      <div class="pcard-body">
+        <span class="pcard-cat" data-fr="Nettoyant & Exfoliant" data-en="Cleanser & Exfoliant">Nettoyant & Exfoliant</span>
+        <h3 class="pcard-name" data-fr="Savon Noir Africain" data-en="African Black Soap">Savon Noir Africain</h3>
+        <p class="pcard-desc" data-fr="Ancestral et efficace. Nettoie en profondeur, unifie le teint et régule le sébum. Idéal peaux grasses." data-en="Ancestral and effective. Deep cleansing, even skin tone and sebum regulation. Ideal for oily skin.">Ancestral et efficace. Nettoie en profondeur, unifie le teint et régule le sébum. Idéal peaux grasses.</p>
+        <div class="pcard-tags"><span class="ptag" data-fr="Anti-acné" data-en="Anti-acne">Anti-acné</span><span class="ptag" data-fr="Unifiant" data-en="Unifying">Unifiant</span><span class="ptag" data-fr="Certifié" data-en="Certified">Certifié</span></div>
+        <a href="#" class="pcard-lnk"><span data-fr="Voir la sélection" data-en="View selection">Voir la sélection</span> →</a>
+      </div>
+    </div>
+
+    <!-- P4 Ricin -->
+    <div class="pcard reveal">
+      <div class="pcard-vis vis-ricin">
+        <div class="pcard-vis-inner" style="display:flex;align-items:center;justify-content:center;height:100%;">
+          <div class="bottle">
+            <div class="bottle-cap" style="background:rgba(90,50,20,.9);width:16px;"></div>
+            <div class="bottle-neck" style="width:16px;height:32px;"></div>
+            <div class="bottle-body" style="width:48px;height:86px;"><span style="font-size:1.8rem;">💆‍♀️</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="pcard-badge" data-fr="Jusqu'à 9%" data-en="Up to 9%">Jusqu'à 9%</div>
+      <div class="pcard-body">
+        <span class="pcard-cat" data-fr="Soin Complet" data-en="Complete Care">Soin Complet</span>
+        <h3 class="pcard-name" data-fr="Huile de Ricin Noire" data-en="Black Castor Oil">Huile de Ricin Noire</h3>
+        <p class="pcard-desc" data-fr="La solution africaine pour les cils, sourcils et cheveux clairsemés. Résultats visibles en 4-6 semaines." data-en="The African solution for sparse lashes, brows and hair. Visible results in 4-6 weeks.">La solution africaine pour les cils, sourcils et cheveux clairsemés. Résultats visibles en 4-6 semaines.</p>
+        <div class="pcard-tags"><span class="ptag" data-fr="Cils & Sourcils" data-en="Lashes & Brows">Cils & Sourcils</span><span class="ptag" data-fr="Scalp" data-en="Scalp">Scalp</span></div>
+        <a href="#" class="pcard-lnk"><span data-fr="Voir la sélection" data-en="View selection">Voir la sélection</span> →</a>
+      </div>
+    </div>
+
+    <!-- P5 Argile -->
+    <div class="pcard reveal">
+      <div class="pcard-vis vis-argile">
+        <div class="pcard-vis-inner" style="display:flex;align-items:center;justify-content:center;height:100%;">
+          <div class="pot">
+            <div class="pot-jar">
+              <div class="pot-lid" style="width:96px;height:20px;margin:0 auto;background:linear-gradient(to bottom,rgba(255,255,255,.4),rgba(255,255,255,.1));border:1px solid rgba(255,255,255,.3);border-radius:50% 50% 0 0;"></div>
+              <div class="pot-body" style="width:96px;height:72px;background:linear-gradient(to bottom,rgba(255,255,255,.3),rgba(255,255,255,.1));border:1px solid rgba(255,255,255,.25);"><span class="pot-label-text" style="color:rgba(100,70,30,.8);">ARGILE</span></div>
+            </div>
+            <span class="pot-emoji">🌸</span>
+          </div>
+        </div>
+      </div>
+      <div class="pcard-badge" data-fr="Jusqu'à 8%" data-en="Up to 8%">Jusqu'à 8%</div>
+      <div class="pcard-body">
+        <span class="pcard-cat" data-fr="Masque Visage" data-en="Face Mask">Masque Visage</span>
+        <h3 class="pcard-name" data-fr="Argile Blanche Purifiante" data-en="Purifying White Clay">Argile Blanche Purifiante</h3>
+        <p class="pcard-desc" data-fr="Masque naturel pour peaux sensibles. Réduit les pores, éclat garanti et effet matifiant longue durée." data-en="Natural mask for sensitive skin. Reduces pores, guaranteed radiance and long-lasting matte effect.">Masque naturel pour peaux sensibles. Réduit les pores, éclat garanti et effet matifiant longue durée.</p>
+        <div class="pcard-tags"><span class="ptag" data-fr="Purifiant" data-en="Purifying">Purifiant</span><span class="ptag" data-fr="Peaux sensibles" data-en="Sensitive skin">Peaux sensibles</span></div>
+        <a href="#" class="pcard-lnk"><span data-fr="Voir la sélection" data-en="View selection">Voir la sélection</span> →</a>
+      </div>
+    </div>
+
+    <!-- P6 Coffret -->
+    <div class="pcard reveal">
+      <div class="pcard-vis vis-coffret">
+        <div class="pcard-vis-inner" style="display:flex;align-items:center;justify-content:center;height:100%;gap:10px;flex-direction:column;">
+          <div style="display:flex;gap:8px;align-items:flex-end;">
+            <div style="width:38px;height:56px;background:rgba(184,146,74,.25);border:1px solid rgba(184,146,74,.4);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;">🌿</div>
+            <div style="width:42px;height:70px;background:rgba(184,146,74,.35);border:1px solid rgba(184,146,74,.5);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">✨</div>
+            <div style="width:38px;height:56px;background:rgba(184,146,74,.25);border:1px solid rgba(184,146,74,.4);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;">🌺</div>
+          </div>
+          <span style="font-family:'Playfair Display',serif;font-size:.75rem;font-style:italic;color:rgba(212,170,106,.8);" data-fr="Coffret Beauté" data-en="Beauty Set">Coffret Beauté</span>
+        </div>
+      </div>
+      <div class="pcard-badge" data-fr="Jusqu'à 12%" data-en="Up to 12%">Jusqu'à 12%</div>
+      <div class="pcard-body">
+        <span class="pcard-cat" data-fr="Soin Premium" data-en="Premium Care">Soin Premium</span>
+        <h3 class="pcard-name" data-fr="Coffret Beauté Africaine" data-en="African Beauty Set">Coffret Beauté Africaine</h3>
+        <p class="pcard-desc" data-fr="La sélection complète pour une routine 100% naturelle. Idéal comme cadeau ou pour débuter sans erreur." data-en="The complete selection for a 100% natural routine. Ideal as a gift or to start without mistakes.">La sélection complète pour une routine 100% naturelle. Idéal comme cadeau ou pour débuter sans erreur.</p>
+        <div class="pcard-tags"><span class="ptag" data-fr="Cadeau idéal" data-en="Ideal gift">Cadeau idéal</span><span class="ptag" data-fr="Complet" data-en="Complete">Complet</span><span class="ptag" data-fr="Premium" data-en="Premium">Premium</span></div>
+        <a href="#" class="pcard-lnk"><span data-fr="Voir la sélection" data-en="View selection">Voir la sélection</span> →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="blog" id="blog">
+  <div class="reveal" style="text-align:center;">
+    <span class="s-label" data-fr="Conseils & Guides" data-en="Tips & Guides">Conseils & Guides</span>
+    <h2 class="s-title"><span data-fr="Le savoir beauté<br/><em>africain partagé</em>" data-en="African beauty<br/><em>knowledge shared</em>">Le savoir beauté<br/><em>africain partagé</em></span></h2>
+  </div>
+  <div class="bgrid">
+
+    <div class="bcard reveal">
+      <div class="bcard-vis vis-blog1">
+        <div class="bcard-vis-inner" style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:14px;">
+          <svg width="70" height="70" viewBox="0 0 70 70" class="blog-deco">
+            <circle cx="35" cy="35" r="30" fill="none" stroke="#D4AA6A" stroke-width="1.5"/>
+            <path d="M35 15 Q50 25 50 35 Q50 50 35 55 Q20 50 20 35 Q20 25 35 15Z" fill="rgba(212,170,106,.25)" stroke="#D4AA6A" stroke-width="1"/>
+            <line x1="35" y1="10" x2="35" y2="60" stroke="rgba(212,170,106,.3)" stroke-width="1"/>
+            <line x1="10" y1="35" x2="60" y2="35" stroke="rgba(212,170,106,.3)" stroke-width="1"/>
+          </svg>
+          <span style="font-family:'Playfair Display',serif;font-size:.8rem;font-style:italic;color:rgba(212,170,106,.7);">Guide #1</span>
+        </div>
+      </div>
+      <div class="bcard-body">
+        <span class="bcard-tag" data-fr="Guide Complet" data-en="Complete Guide">Guide Complet</span>
+        <h3 class="bcard-title" data-fr="Top 5 beurres de karité pour peau noire — Sélection 2026" data-en="Top 5 shea butters for dark skin — 2026 Selection">Top 5 beurres de karité pour peau noire — Sélection 2026</h3>
+        <p class="bcard-exc" data-fr="Toutes les crèmes au karité ne se valent pas. On a comparé les 5 meilleures formules disponibles en livraison Europe et Afrique de l'Ouest." data-en="Not all shea creams are equal. We compared the 5 best formulas for delivery in Europe and West Africa.">Toutes les crèmes au karité ne se valent pas. On a comparé les 5 meilleures formules disponibles en livraison Europe et Afrique de l'Ouest.</p>
+        <div class="bcard-foot"><span class="bcard-date">Janvier 2026</span><a href="#" class="bcard-read"><span data-fr="Lire" data-en="Read">Lire</span> →</a></div>
+      </div>
+    </div>
+
+    <div class="bcard reveal">
+      <div class="bcard-vis vis-blog2">
+        <div class="bcard-vis-inner" style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:12px;">
+          <svg width="56" height="56" viewBox="0 0 56 56" class="blog-deco">
+            <path d="M28 5 L34 21 L51 21 L37 32 L43 48 L28 38 L13 48 L19 32 L5 21 L22 21Z" fill="rgba(100,180,120,.2)" stroke="rgba(100,180,120,.5)" stroke-width="1.5"/>
+          </svg>
+          <span style="font-family:'Playfair Display',serif;font-size:.8rem;font-style:italic;color:rgba(100,200,130,.6);">Guide #2</span>
+        </div>
+      </div>
+      <div class="bcard-body">
+        <span class="bcard-tag" data-fr="Routine Cheveux" data-en="Hair Routine">Routine Cheveux</span>
+        <h3 class="bcard-title" data-fr="Huile de baobab vs huile d'argan : laquelle choisir ?" data-en="Baobab oil vs argan oil: which one to choose?">Huile de baobab vs huile d'argan : laquelle choisir ?</h3>
+        <p class="bcard-exc" data-fr="Comparatif détaillé pour comprendre laquelle convient à votre type de cheveux et de peau." data-en="Detailed comparison to understand which suits your hair and skin type.">Comparatif détaillé pour comprendre laquelle convient à votre type de cheveux et de peau.</p>
+        <div class="bcard-foot"><span class="bcard-date">Février 2026</span><a href="#" class="bcard-read"><span data-fr="Lire" data-en="Read">Lire</span> →</a></div>
+      </div>
+    </div>
+
+    <div class="bcard reveal">
+      <div class="bcard-vis vis-blog3">
+        <div class="bcard-vis-inner" style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:12px;">
+          <svg width="56" height="56" viewBox="0 0 56 56" class="blog-deco">
+            <rect x="10" y="10" width="36" height="28" rx="4" fill="rgba(184,146,74,.15)" stroke="rgba(184,146,74,.4)" stroke-width="1.5"/>
+            <line x1="18" y1="20" x2="38" y2="20" stroke="rgba(184,146,74,.4)" stroke-width="1.5"/>
+            <line x1="18" y1="28" x2="38" y2="28" stroke="rgba(184,146,74,.3)" stroke-width="1"/>
+            <circle cx="28" cy="44" r="5" fill="rgba(184,146,74,.3)" stroke="rgba(184,146,74,.5)" stroke-width="1"/>
+          </svg>
+          <span style="font-family:'Playfair Display',serif;font-size:.8rem;font-style:italic;color:rgba(184,146,74,.6);">Guide #3</span>
+        </div>
+      </div>
+      <div class="bcard-body">
+        <span class="bcard-tag" data-fr="Astuce Beauté" data-en="Beauty Tip">Astuce Beauté</span>
+        <h3 class="bcard-title" data-fr="Savon noir africain : 7 façons de l'utiliser" data-en="African black soap: 7 ways to use it">Savon noir africain : 7 façons de l'utiliser</h3>
+        <p class="bcard-exc" data-fr="Bien plus qu'un nettoyant, le savon noir est un multi-usage ancestral aux 7 usages méconnus." data-en="Far more than a cleanser, black soap is an ancestral multi-use product with 7 lesser-known uses.">Bien plus qu'un nettoyant, le savon noir est un multi-usage ancestral aux 7 usages méconnus.</p>
+        <div class="bcard-foot"><span class="bcard-date">Mars 2026</span><a href="#" class="bcard-read"><span data-fr="Lire" data-en="Read">Lire</span> →</a></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why">
+  <div class="reveal" style="text-align:center;">
+    <span class="s-label" data-fr="Pourquoi Nous" data-en="Why Us">Pourquoi Nous</span>
+    <h2 class="s-title"><span data-fr="La confiance <em>avant tout</em>" data-en="Trust <em>above all</em>">La confiance <em>avant tout</em></span></h2>
+  </div>
+  <div class="wgrid">
+    <div class="wcard reveal"><span class="w-icon">🎯</span><h4 class="w-title" data-fr="Sélection Rigoureuse" data-en="Rigorous Selection">Sélection Rigoureuse</h4><p class="w-text" data-fr="Chaque produit est analysé selon les avis clients, la composition et l'éthique de la marque avant toute recommandation." data-en="Each product is analyzed based on customer reviews, composition and brand ethics before any recommendation.">Chaque produit est analysé selon les avis clients, la composition et l'éthique de la marque avant toute recommandation.</p></div>
+    <div class="wcard reveal"><span class="w-icon">🌍</span><h4 class="w-title" data-fr="Ancrage Africain" data-en="African Roots">Ancrage Africain</h4><p class="w-text" data-fr="Né au Burkina Faso, nous connaissons authentiquement les produits africains et leurs usages traditionnels millénaires." data-en="Born in Burkina Faso, we authentically know African products and their millennial traditional uses.">Né au Burkina Faso, nous connaissons authentiquement les produits africains et leurs usages traditionnels millénaires.</p></div>
+    <div class="wcard reveal"><span class="w-icon">💬</span><h4 class="w-title" data-fr="Contenu Bilingue" data-en="Bilingual Content">Contenu Bilingue</h4><p class="w-text" data-fr="Tous nos guides sont disponibles en français et en anglais pour toute la communauté africaine mondiale." data-en="All our guides are available in French and English for the entire global African community.">Tous nos guides sont disponibles en français et en anglais pour toute la communauté africaine mondiale.</p></div>
+    <div class="wcard reveal"><span class="w-icon">✅</span><h4 class="w-title" data-fr="Liens Vérifiés" data-en="Verified Links">Liens Vérifiés</h4><p class="w-text" data-fr="Nos liens partenaires CJ Affiliate sont vérifiés régulièrement. Marchands sélectionnés pour leur fiabilité." data-en="Our CJ Affiliate partner links are regularly verified. Merchants selected for their reliability.">Nos liens partenaires CJ Affiliate sont vérifiés régulièrement. Marchands sélectionnés pour leur fiabilité.</p></div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="nl" id="contact">
+  <div class="nl-inner">
+    <h2 class="nl-title"><span data-fr="Rejoignez la communauté<br/><em>AfroBeautyShop</em>" data-en="Join the<br/><em>AfroBeautyShop</em> community">Rejoignez la communauté<br/><em>AfroBeautyShop</em></span></h2>
+    <p class="nl-sub" data-fr="Conseils beauté, nouveaux guides et bons plans — directement dans votre boîte mail" data-en="Beauty tips, new guides and deals — directly in your inbox">Conseils beauté, nouveaux guides et bons plans — directement dans votre boîte mail</p>
+    <div class="nl-form">
+      <input class="nl-input" type="email" id="emailInput" placeholder="votre@email.com"/>
+      <button class="nl-btn" onclick="sub()" data-fr="S'inscrire" data-en="Subscribe">S'inscrire</button>
+    </div>
+    <p style="margin-top:14px;font-size:.68rem;color:rgba(240,232,213,.25);font-style:italic;" data-fr="Aucun spam · Désabonnement en 1 clic" data-en="No spam · Unsubscribe in 1 click">Aucun spam · Désabonnement en 1 clic</p>
+  </div>
+</section>
+
+<!-- AFF BAR -->
+<div class="aff-bar">
+  <span style="font-size:1.1rem;flex-shrink:0;">ℹ️</span>
+  <p data-fr="<strong>Liens affiliés :</strong> AfroBeautyShop participe au programme CJ Affiliate. Lorsque vous cliquez sur nos liens et effectuez un achat, nous percevons une commission sans coût supplémentaire pour vous. Cela nous permet de continuer à créer du contenu gratuit pour la communauté africaine." data-en="<strong>Affiliate links:</strong> AfroBeautyShop participates in the CJ Affiliate program. When you click our links and make a purchase, we earn a commission at no extra cost to you. This allows us to keep creating free content for the African community."><strong>Liens affiliés :</strong> AfroBeautyShop participe au programme CJ Affiliate. Lorsque vous cliquez sur nos liens et effectuez un achat, nous percevons une commission sans coût supplémentaire pour vous. Cela nous permet de continuer à créer du contenu gratuit pour la communauté africaine.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-grid">
+    <div>
+      <span class="ft-logo">Afro<span>Beauty</span>Shop</span>
+      <p class="ft-desc" data-fr="Votre guide de référence pour les cosmétiques naturels africains. Depuis Bobo-Dioulasso, au service de toute la diaspora africaine mondiale." data-en="Your reference guide for African natural cosmetics. From Bobo-Dioulasso, serving the entire global African diaspora.">Votre guide de référence pour les cosmétiques naturels africains. Depuis Bobo-Dioulasso, au service de toute la diaspora africaine mondiale.</p>
+      <div class="ft-socials">
+        <a href="#" class="ft-soc">▶</a><a href="#" class="ft-soc">f</a><a href="#" class="ft-soc">in</a><a href="#" class="ft-soc">✉</a>
+      </div>
+    </div>
+    <div>
+      <p class="ft-col-t" data-fr="Navigation" data-en="Navigation">Navigation</p>
+      <ul class="ft-links">
+        <li><a href="#" data-fr="Accueil" data-en="Home">Accueil</a></li>
+        <li><a href="#about" data-fr="À Propos" data-en="About">À Propos</a></li>
+        <li><a href="#products" data-fr="Produits" data-en="Products">Produits</a></li>
+        <li><a href="#blog" data-fr="Blog" data-en="Blog">Blog</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="ft-col-t" data-fr="Catégories" data-en="Categories">Catégories</p>
+      <ul class="ft-links">
+        <li><a href="#" data-fr="Soin Visage" data-en="Face Care">Soin Visage</a></li>
+        <li><a href="#" data-fr="Soin Cheveux" data-en="Hair Care">Soin Cheveux</a></li>
+        <li><a href="#" data-fr="Soin Corps" data-en="Body Care">Soin Corps</a></li>
+        <li><a href="#" data-fr="Coffrets Cadeaux" data-en="Gift Sets">Coffrets Cadeaux</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="ft-col-t" data-fr="Légal" data-en="Legal">Légal</p>
+      <ul class="ft-links">
+        <li><a href="#" data-fr="Confidentialité" data-en="Privacy Policy">Confidentialité</a></li>
+        <li><a href="#" data-fr="Mentions légales" data-en="Legal Notice">Mentions légales</a></li>
+        <li><a href="#" data-fr="Divulgation affiliés" data-en="Affiliate Disclosure">Divulgation affiliés</a></li>
+        <li><a href="#" data-fr="Contact" data-en="Contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <p class="ft-copy" data-fr="© 2026 AfroBeautyShop · Bobo-Dioulasso, Burkina Faso" data-en="© 2026 AfroBeautyShop · Bobo-Dioulasso, Burkina Faso">© 2026 AfroBeautyShop · Bobo-Dioulasso, Burkina Faso</p>
+    <p class="ft-aff-n" data-fr="Participant au programme CJ Affiliate. Opinions indépendantes basées sur des recherches approfondies." data-en="Participating in the CJ Affiliate program. Independent opinions based on thorough research.">Participant au programme CJ Affiliate. Opinions indépendantes basées sur des recherches approfondies.</p>
+  </div>
+</footer>
+
+<script>
+let lang='fr';
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${l}')"]`).classList.add('active');
+  document.querySelectorAll('[data-fr]').forEach(el=>{
+    const v=el.getAttribute('data-'+l);
+    if(!v)return;
+    if(el.tagName==='INPUT'){el.placeholder=l==='fr'?'votre@email.com':'your@email.com';}
+    else{el.innerHTML=v;}
+  });
+}
+
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*70);});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').style.boxShadow=window.scrollY>40?'0 4px 24px rgba(15,10,4,.07)':'none';
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+function sub(){
+  const i=document.getElementById('emailInput');
+  if(i.value&&i.value.includes('@')){
+    i.value='';
+    i.placeholder=lang==='fr'?'✓ Merci ! Vous êtes inscrit(e)':'✓ Thank you! You are subscribed';
+    i.style.borderColor='var(--gold)';
+    setTimeout(()=>{i.placeholder=lang==='fr'?'votre@email.com':'your@email.com';i.style.borderColor='';},3000);
+  }
+}
+</script>
+</body>
+</html>
